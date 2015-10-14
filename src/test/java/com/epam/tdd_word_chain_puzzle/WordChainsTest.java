@@ -1,10 +1,12 @@
-package com.epam.word_chains;
+package com.epam.tdd_word_chain_puzzle;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+
 import static org.junit.Assert.*;
+
 public class WordChainsTest {
 
   /*
@@ -27,7 +29,6 @@ public class WordChainsTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void startAndEndWordsAreNotTheSame() {
-
     word_solver.getChain("cat", "cat");
   }
 
@@ -47,10 +48,10 @@ public class WordChainsTest {
   }
 
   private boolean doWordsDifferInOneLetter(String word1, String word2) {
-      int diff_count = 0;
-      for (int i = 0; i < word1.length(); i++) {
-          if (word1.charAt(i) != word2.charAt(i)) diff_count++;
-      }
+    int diff_count = 0;
+    for (int i = 0; i < word1.length(); i++) {
+      if (word1.charAt(i) != word2.charAt(i)) diff_count++;
+    }
     return (diff_count == 1);
   }
 
@@ -62,12 +63,16 @@ public class WordChainsTest {
       if (!doWordsDifferInOneLetter(chain.get(i), chain.get(i + 1)))
         wordsAreNotCorrectlySet = true;
     }
-    assertFalse("A word or more were not found to be different than the previous word by one letter", wordsAreNotCorrectlySet);
+
+    assertFalse(
+        "A word or more were not found to be different than the previous word by one letter",
+        wordsAreNotCorrectlySet);
   }
 
   @Test
   public void chainMustNotBeNull() {
     List<String> chain = word_solver.getChain("cat", "dog");
-    assertFalse("The chain must not be empty" ,chain.isEmpty());
+
+    assertFalse("The chain must not be empty", chain.isEmpty());
   }
 }

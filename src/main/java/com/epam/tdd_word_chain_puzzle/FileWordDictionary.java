@@ -1,18 +1,15 @@
-package com.epam.word_chains;
+package com.epam.tdd_word_chain_puzzle;
 
 import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by Adam_Bronowicki on 10/13/2015.
- */
 public class FileWordDictionary implements WordDictionary {
   private static final String DICTIONARY_FILE_PATH = "src/main/resources/words";
 
   private Set<String> dictionary;
+
   public FileWordDictionary() {
-    // open the dictionary file and load it in a hash set
     dictionary = new HashSet<>();
     File dictionary_file = new File(DICTIONARY_FILE_PATH);
     try {
@@ -26,7 +23,7 @@ public class FileWordDictionary implements WordDictionary {
           );
       String line = null;
 
-      while((line = buffered_reader.readLine()) != null) {
+      while ((line = buffered_reader.readLine()) != null) {
         dictionary.add(line);
       }
     } catch (FileNotFoundException e) {
