@@ -1,7 +1,9 @@
 package com.epam.training;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,9 +23,9 @@ public class WordChain {
         this.dictionaryPath = dictionaryPath;
     }
 
-    public List<String> getChain(String start, String end) throws WordChainException, IOException {
-        validateInput(start, end);
+    public List<String> getChain(String start, String end) throws WordChainException, IOException, URISyntaxException {
         loadFile(dictionaryPath);
+        validateInput(start, end);
 
         List<String> chain = new ArrayList<String>();
         chain.add(start);
@@ -48,6 +50,9 @@ public class WordChain {
         if (start.length() != end.length()) {
             throw new WordChainException("Number of letters should be equal");
         }
+        if (!words.contains(start) || !words.contains(end)) {
+            throw new WordChainException("One of words doesn't exit in dictionary");
+        }
     }
 
     private String getNextMatchWord(String start, String end) {
@@ -68,18 +73,18 @@ public class WordChain {
         return null;
     }
 
-    private void loadFile(String dictionaryPath) throws IOException {
+    private void loadFile(String dictionaryPath) throws IOException, URISyntaxException {
         if (words == null && fileExist(dictionaryPath)) {
-            this.words = new HashSet<String>(Files.readAllLines(Paths.get(dictionaryPath)));
+            Path path = Paths.get(getClass().getResource(dictionaryPath).toURI());
+            this.words = new HashSet<String>(Files.readAllLines(path));
         }
     }
 
-    boolean fileExist(String fileName) {
-        return Files.exists(Paths.get(fileName));
+    boolean fileExist(String fileName) throws URISyntaxException {
+        return fileName != null && getClass().getResource(fileName) != null;
     }
 
-
     Set<String> getWords() {
-        return this.words;
+        return words;
     }
 }

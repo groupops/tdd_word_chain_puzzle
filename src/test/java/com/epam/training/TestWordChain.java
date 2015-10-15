@@ -15,26 +15,41 @@ import static org.junit.Assert.assertFalse;
  */
 public class TestWordChain {
     private static final int WORDS_COUNT = 99171;
+    private static final String DICTIONARY_PATH = "/words";
+    private static final String WRONG_DICTIONARY_PATH = "/wrong/dictionary/path";
+    private static final String UNEXISTING_WORD_IN_DICTIONARY = "unexist_word_in_dictionary";
+
     private static WordChain wordChain;
+
 
     @BeforeClass
     public static void setup() {
-        wordChain = new WordChain("D:\\words");
+        wordChain = new WordChain(DICTIONARY_PATH);
     }
 
     @Test
     public void checkIfFileExist() throws Exception {
-        assertTrue(wordChain.fileExist("D:\\words"));
+        assertTrue(wordChain.fileExist(DICTIONARY_PATH));
     }
 
     @Test
     public void checkIfFileNotExist() throws Exception {
-        assertFalse(wordChain.fileExist("D:\\words\\word"));
+        assertFalse(wordChain.fileExist(WRONG_DICTIONARY_PATH));
     }
 
     @Test
     public void checkIfAllWordsWereLoaded() throws Exception {
         assertEquals(WORDS_COUNT, wordChain.getWords().size());
+    }
+
+    @Test(expected = WordChainException.class)
+    public void exceptionWhenInputWordNotExistInDictionary() throws Exception {
+        wordChain.getChain(UNEXISTING_WORD_IN_DICTIONARY, UNEXISTING_WORD_IN_DICTIONARY);
+    }
+
+    @Test(expected = WordChainException.class)
+    public void exceptionWhenPassNull() throws Exception {
+        wordChain.getChain(null, null);
     }
 
     @Test
@@ -52,9 +67,7 @@ public class TestWordChain {
     public void checkIfOneLetterChanged() throws Exception {
         List<String> words = wordChain.getChain("dog", "cat");
         String word = words.get(1);
-        Assert.assertTrue(('d' != word.charAt(0)
-                || 'o' != word.charAt(1)
-                || 'g' != word.charAt(2)
-        ));
+        assertTrue(('d' != word.charAt(0) || 'o' != word.charAt(1) || 'g' != word.charAt(2)));
     }
+
 }
