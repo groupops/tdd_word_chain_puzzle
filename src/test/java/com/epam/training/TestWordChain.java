@@ -1,7 +1,5 @@
 package com.epam.training;
 
-import com.epam.traning.WordChain;
-import com.epam.traning.WordChainException;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -32,11 +30,6 @@ public class TestWordChain {
     @Test
     public void checkIfFileNotExist() throws Exception {
         assertFalse(wordChain.fileExist("D:\\words\\word"));
-    }
-
-    @Test
-    public void checkIfFileIsLoadedIntoSet() throws Exception {
-        assertFalse(wordChain.getWords().isEmpty());
     }
 
     @Test

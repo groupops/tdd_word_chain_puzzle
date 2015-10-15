@@ -1,4 +1,4 @@
-package com.epam.traning;
+package com.epam.training;
 
 /**
  * Created by Dmytro_Ulanovych on 10/14/2015.
